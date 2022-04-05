@@ -8,8 +8,7 @@ from .models import Super
 
 
 @api_view(['GET','POST'])
-def get_super(request):
-
+def get_super_list(request):
 
     # 1.Accepts a value from the request's URL (The id of the super to retrieve).
     # 2.Returns a 200 status code.
@@ -41,14 +40,19 @@ def change_super(request,pk):
     # Returns a 200 status code.
     # Responds with the newly updated super object
     if request.method == 'GET':
-        
-        pass
-
-@api_view(['DELETE'])
-def bye_bye_super(request):
+        serializer = SuperSerializer(supers)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
-    #     Accepts a value from the request's URL.
-    # Deletes the correct super from the database
-    # Returns a 204 status code (NO CONTENT).
+    elif request.method == 'PUT':
+        serializer = SuperSerializer(supers,data = request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    
+    elif request.method == 'DELETE':
+        supers.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-    pass
+
+

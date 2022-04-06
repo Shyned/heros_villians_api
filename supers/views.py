@@ -19,15 +19,15 @@ def get_super_list(request):
     # 3.Responds with the super in the database that has the id that was sent through the URL
     
     if request.method == 'GET':
+        
         if type_param == 'hero':
-            
-                
+              
             serializer = SuperSerializer(super_heros,many=True)
-            return Response(serializer.data)
+            return Response(serializer.data,status=status.HTTP_200_OK)
             
         elif type_param=='villain':
             serializer = SuperSerializer(super_villains,many=True)
-            return Response(serializer.data)
+            return Response(serializer.data,status=status.HTTP_200_OK)
 
         else:
             serializer = SuperSerializer(supers, many=True)
